@@ -14,18 +14,19 @@ function Header(props) {
     }, [])
 
     return (
-        <div style={{ background: '#eee', padding: '10px', height: '50px', alignItems: 'center', display: 'flex' }}>
+        <div style={{ background: '#eee', padding: '10px', alignItems: 'center', display: 'flex' }}>
             <div>
                 SHOPKART
             </div>
             <div>
-                <input type="text" value={props && props.search} onChange={(e) => {
-                
+                <input style={{ margin: '10px' }} type="text" value={props && props.search} onChange={(e) => {
+
                     props &&
                         props.setSearch &&
                         props.setSearch(e.target.value)
                 }} />
             </div>
+
             <div>
                 {categories &&
                     categories.length > 0 &&
@@ -39,6 +40,29 @@ function Header(props) {
                         )
                     })
                 }
+            </div>
+
+            <div>
+                {
+                    !!localStorage.getItem('token') ?
+                        (<>
+                            <Link to="/user/cart" >
+                                CART
+                            </Link>
+                            <button onClick={() => {
+                                localStorage.removeItem('token');
+                                window.location.reload();
+                            }}>
+                                LOGOUT
+                            </button>
+                        </>
+                        )
+                        :
+                        (<Link to="/auth/login" >
+                            LOGIN
+                        </Link>)
+                }
+
             </div>
         </div>
     );

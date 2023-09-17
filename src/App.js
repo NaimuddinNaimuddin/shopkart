@@ -1,14 +1,14 @@
 import { useEffect, useState } from 'react';
 import './App.css';
 import Header from './components/Header';
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 
 function App() {
-
+  const navigate = useNavigate();
   const [products, setProducts] = useState([]);
   const [search, setSearch] = useState('');
-   console.log(search);
+  console.log(search);
   useEffect(() => {
 
     if (search == '') {
@@ -31,8 +31,9 @@ function App() {
 
   return (
     <div className="">
-      <Header search={search} setSearch={(v)=> {
-        setSearch(v)}} />
+      <Header search={search} setSearch={(v) => {
+        setSearch(v)
+      }} />
       <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }} >
         {
           products &&
@@ -47,6 +48,34 @@ function App() {
                 </div>
                 <div> {item.brand} in  {item.category}</div>
                 <div style={{ color: 'green' }}> DISCOUNT - {item.discountPercentage} %  </div>
+                {
+                  !!localStorage.getItem('token') &&
+                  <button
+                    onClick={() => {
+                      fetch('https://dummyjson.com/carts/1', {
+                        method: 'PUT', /* or PATCH */
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                          merge: true, // this will include existing products in the cart
+                          products: [
+                            {
+                              id: item.id,
+                              quantity: 1,
+                            },
+                          ]
+                        })
+                      })
+                        .then(res => res.json())
+                        .then((res) => {
+                          console.log(res)
+                          if (res && res.products) {
+                            alert('added to cart');
+                            navigate('/user/cart');
+                          }
+                        });
+
+                    }} > ADD TO CART </button>
+                }
               </div>
             )
           })

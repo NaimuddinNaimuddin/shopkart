@@ -24,7 +24,7 @@ function Category(props) {
                     setProducts(res.products)
                 });
         }
-    }, [categoryName,search])
+    }, [categoryName, search])
 
 
     return (
@@ -48,6 +48,13 @@ function Category(props) {
                                 </div>
                                 <div> {item.brand} in  {item.category}</div>
                                 <div style={{ color: 'green' }}> DISCOUNT - {item.discountPercentage} %  </div>
+                                {
+                                    !!localStorage.getItem('token') &&
+                                    <button
+                                        onClick={() => {
+                                            alert('added to cart...')
+                                        }} > ADD TO CART </button>
+                                }
                             </div>
                         )
                     })

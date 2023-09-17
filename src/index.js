@@ -12,6 +12,8 @@ import {
 } from "react-router-dom";
 import Category from './components/Category';
 import Product from './components/Product';
+import Login from './components/Login';
+import Cart from './components/Cart';
 
 const router = createBrowserRouter([
   {
@@ -24,11 +26,19 @@ const router = createBrowserRouter([
   },
   {
     path: "/category/:categoryName",
-    element: <Category/> ,
+    element: <Category />,
   },
   {
     path: "/product/:productId",
-    element: <Product /> ,
+    element: <Product />,
+  },
+  {
+    path: "/auth/login",
+    element: <Login />,
+  },
+  {
+    path: "/user/cart",
+    element: <Cart />,
   },
 ]);
 
